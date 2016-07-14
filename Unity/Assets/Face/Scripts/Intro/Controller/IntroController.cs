@@ -13,7 +13,7 @@ public class IntroController : FaceSceneController
         base.OnSet (data);
 
         FaceSceneManager.Instance.Wait (2.0f, delegate() {
-            FaceSceneManager.Instance.Screen ("Main");
+            MainController.Main ();
         });
     }
 }
