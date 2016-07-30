@@ -1,0 +1,13 @@
+facechamp:
+  authorizeToken:
+    secret: otp(timestamp)SigningSecretString
+    ttl:    60000    # milliseconds
+  jwt.token:
+    secret: jwtSigningSecretString
+spring:
+  datasource:
+    username: root
+    password: ""
+logging:
+  level:
+    facechamp: trace
