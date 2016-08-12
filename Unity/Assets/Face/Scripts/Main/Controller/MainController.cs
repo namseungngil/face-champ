@@ -18,4 +18,9 @@ public class MainController : FaceSceneController
     {
         BattleController.Main ();
     }
+
+    public void OnClickSetting ()
+    {
+        LoginController.Main ();
+    }
 }
