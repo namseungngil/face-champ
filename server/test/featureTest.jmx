@@ -28,7 +28,7 @@
       <hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Configuration : Environment" enabled="true"/>
         <hashTree>
-          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="LOCAL" enabled="true">
+          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="LOCAL" enabled="false">
             <collectionProp name="Arguments.arguments">
               <elementProp name="http.protocol" elementType="Argument">
                 <stringProp name="Argument.name">http.protocol</stringProp>
@@ -53,7 +53,7 @@
             </collectionProp>
           </Arguments>
           <hashTree/>
-          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="DEV" enabled="false">
+          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="DEV" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="http.protocol" elementType="Argument">
                 <stringProp name="Argument.name">http.protocol</stringProp>
@@ -79,31 +79,31 @@
           </Arguments>
           <hashTree/>
         </hashTree>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
-          <collectionProp name="HeaderManager.headers">
-            <elementProp name="" elementType="Header">
-              <stringProp name="Header.name">Content-Type</stringProp>
-              <stringProp name="Header.value">application/json;charset=UTF-8</stringProp>
-            </elementProp>
-          </collectionProp>
-        </HeaderManager>
-        <hashTree/>
-        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="DEV : HTTP Request" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">${http.host}</stringProp>
-          <stringProp name="HTTPSampler.port">${http.port}</stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="HTTPSampler.protocol">${http.protocol}</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding">${http.encoding}</stringProp>
-          <stringProp name="HTTPSampler.path"></stringProp>
-          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-        </ConfigTestElement>
-        <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Auth : JWT" enabled="true"/>
         <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json;charset=UTF-8</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="DEV : HTTP Request" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${http.host}</stringProp>
+            <stringProp name="HTTPSampler.port">${http.port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${http.protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">${http.encoding}</stringProp>
+            <stringProp name="HTTPSampler.path"></stringProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          </ConfigTestElement>
+          <hashTree/>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Before auth" enabled="true"/>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="index" enabled="true">

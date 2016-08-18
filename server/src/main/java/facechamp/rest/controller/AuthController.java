@@ -34,11 +34,13 @@ public interface AuthController {
 
   /**
    * 인증 / 계정 생성 후 JWT 토큰을 생성.
+   * <p>
+   * TODO 컨트롤러에서 직접 {@link HttpServletResponse}를 인자로 받지 않는 방향으로 변경.
+   * </p>
    *
    * @param req
    * @param result
    * @param response
-   *          TODO
    * @return
    * @since 2016. 7. 29.
    */

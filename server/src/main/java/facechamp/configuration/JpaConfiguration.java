@@ -39,13 +39,25 @@ import facechamp.reposigory.RepositoryAnchor;
 @EnableTransactionManagement
 @EnableJpaAuditing
 public class JpaConfiguration {
+  private static final String   JPA_PROPERTY_PREFIX = "spring.jpa.properties.";
+
+  /**
+   * 기본 설정방법으로는 설정을 적용하지 못하는 JPA
+   */
+  private static final String[] JPA_PROPERTIES      = new String[] {
+      "hibernate.cache.use_second_level_cache",
+      "hibernate.cache.use_query_cache",
+      "hibernate.cache.region.factory_class",
+      "hibernate.generateStatistics"
+  };
+
   @Value("${spring.jpa.generate-ddl}")
-  private boolean     generateDdl;
+  private boolean               generateDdl;
   @Value("${spring.jpa.show-sql}")
-  private boolean     showSql;
+  private boolean               showSql;
 
   @Autowired
-  private Environment env;
+  private Environment           env;
 
   /**
    * Spring Data JPA가 스캔해야 할 패키지의 목록을 제공한다.
@@ -58,19 +70,18 @@ public class JpaConfiguration {
 
   /**
    * JPA 구현체용 설정 정보를 제공한다.
+   * <p>
+   * TODO Hibernate 5에서 2nd Lv. 캐시 적용하기.
+   * </p>
    *
    * @return JPA 구현체용 설정.
    */
+  @SuppressWarnings("unused")
   private Map<String, Object> jpaProperties() {
-    final String prefix = "spring.jpa.properties.";
-
-    Map<String, Object> properties = asList("hibernate.cache.use_second_level_cache",
-        "hibernate.cache.use_query_cache",
-        "hibernate.cache.region.factory_class",
-        "hibernate.generateStatistics")
-            .stream()
-            .filter(k -> null != this.env.getProperty(prefix + k))
-            .collect(toMap(k -> k, k -> this.env.getProperty(prefix + k)));
+    Map<String, Object> properties = asList(JPA_PROPERTIES)
+        .stream()
+        .filter(k -> null != this.env.getProperty(JPA_PROPERTY_PREFIX + k))
+        .collect(toMap(k -> k, k -> this.env.getProperty(JPA_PROPERTY_PREFIX + k)));
     return properties;
   }
 
@@ -91,7 +102,7 @@ public class JpaConfiguration {
     factory.setDataSource(this.dataSource());
     factory.setJpaVendorAdapter(adapter);
     factory.setPackagesToScan(this.getPackagesToScan());
-    factory.setJpaPropertyMap(this.jpaProperties());
+    // factory.setJpaPropertyMap(this.jpaProperties());
 
     return factory;
   }
