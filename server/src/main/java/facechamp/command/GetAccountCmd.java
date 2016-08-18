@@ -16,4 +16,12 @@ import lombok.Data;
 public class GetAccountCmd {
   private ClientType type;
   private String     identifier;
+
+  public GetAccountCmd() {
+  }
+
+  public GetAccountCmd(ClientType type, String identifier) {
+    this.type = type;
+    this.identifier = identifier;
+  }
 }

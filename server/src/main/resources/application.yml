@@ -1,9 +1,10 @@
 spring:
   datasource:
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost/facechamp
     username: database_instance_username # Overwrite by `[PROJECT]/config/application.yml`. See `[PROJECT]/config/sample-application.yml`.
     password: database_instance_password # Overwrite by `[PROJECT]/config/application.yml`. See `[PROJECT]/config/sample-application.yml`.
-    driver-class-name: 'com.mysql.jdbc.Driver'
     sql-script-encoding: UTF-8
     connection-test-query: 'SELECT 1'
     validation-query: 'SELECT 1'
