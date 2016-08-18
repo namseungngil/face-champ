@@ -26,43 +26,53 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Configuration" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Configuration : Environment" enabled="true"/>
         <hashTree>
-          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="LOCAL" enabled="false">
+          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="LOCAL" enabled="true">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="server.protocol" elementType="Argument">
-                <stringProp name="Argument.name">server.protocol</stringProp>
+              <elementProp name="http.protocol" elementType="Argument">
+                <stringProp name="Argument.name">http.protocol</stringProp>
                 <stringProp name="Argument.value">http</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
-              <elementProp name="server.host" elementType="Argument">
-                <stringProp name="Argument.name">server.host</stringProp>
+              <elementProp name="http.host" elementType="Argument">
+                <stringProp name="Argument.name">http.host</stringProp>
                 <stringProp name="Argument.value">localhost</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
-              <elementProp name="server.port" elementType="Argument">
-                <stringProp name="Argument.name">server.port</stringProp>
+              <elementProp name="http.port" elementType="Argument">
+                <stringProp name="Argument.name">http.port</stringProp>
                 <stringProp name="Argument.value">8080</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="http.encoding" elementType="Argument">
+                <stringProp name="Argument.name">http.encoding</stringProp>
+                <stringProp name="Argument.value">UTF-8</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </Arguments>
           <hashTree/>
-          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="SERVER" enabled="true">
+          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="DEV" enabled="false">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="server.protocol" elementType="Argument">
-                <stringProp name="Argument.name">server.protocol</stringProp>
+              <elementProp name="http.protocol" elementType="Argument">
+                <stringProp name="Argument.name">http.protocol</stringProp>
                 <stringProp name="Argument.value">http</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
-              <elementProp name="server.host" elementType="Argument">
-                <stringProp name="Argument.name">server.host</stringProp>
+              <elementProp name="http.host" elementType="Argument">
+                <stringProp name="Argument.name">http.host</stringProp>
                 <stringProp name="Argument.value">104.199.190.8</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
-              <elementProp name="server.port" elementType="Argument">
-                <stringProp name="Argument.name">server.port</stringProp>
-                <stringProp name="Argument.value"></stringProp>
+              <elementProp name="http.port" elementType="Argument">
+                <stringProp name="Argument.name">http.port</stringProp>
+                <stringProp name="Argument.value">80</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="http.encoding" elementType="Argument">
+                <stringProp name="Argument.name">http.encoding</stringProp>
+                <stringProp name="Argument.value">UTF-8</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -78,24 +88,64 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="DEV : HTTP Request" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">${server.host}</stringProp>
-          <stringProp name="HTTPSampler.port">${server.port}</stringProp>
+          <stringProp name="HTTPSampler.domain">${http.host}</stringProp>
+          <stringProp name="HTTPSampler.port">${http.port}</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="HTTPSampler.protocol">${server.protocol}</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.protocol">${http.protocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">${http.encoding}</stringProp>
           <stringProp name="HTTPSampler.path"></stringProp>
           <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="JWT" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Auth : JWT" enabled="true"/>
         <hashTree>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Before auth" enabled="true"/>
           <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="index" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+	&quot;jwt&quot;:&quot;abcde&quot;&#xd;
+}&#xd;
+</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">/index</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="status" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="51511">403</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="issue authorize token" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
@@ -190,6 +240,7 @@
 
 String sd = vars.get(&quot;sd&quot;);
 String sign = DigestUtils.sha1Hex(sd);
+log.info(&quot;sd=&quot;+sd+&quot;, sign=&quot;+sign);
 
 vars.put(&quot;sign&quot;, sign);</stringProp>
               </BeanShellPreProcessor>
