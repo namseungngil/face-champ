@@ -6,8 +6,10 @@ spring:
     username: database_instance_username # Overwrite by `[PROJECT]/config/application.yml`. See `[PROJECT]/config/sample-application.yml`.
     password: database_instance_password # Overwrite by `[PROJECT]/config/application.yml`. See `[PROJECT]/config/sample-application.yml`.
     sql-script-encoding: UTF-8
-    connection-test-query: 'SELECT 1'
-    validation-query: 'SELECT 1'
+    tomcat:
+      validation-query: 'SELECT 1'
+      test-while-idle: true
+      test-on-borrow: true
   jpa:
     show-sql: false
     generate-ddl: false
