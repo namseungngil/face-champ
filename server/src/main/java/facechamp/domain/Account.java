@@ -20,6 +20,10 @@ public interface Account {
 
   public void setUsername(String username);
 
+  public Role getRole();
+
+  public void setRole(Role role);
+
   public Instant getCreate();
 
   public Instant getUpdate();

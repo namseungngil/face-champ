@@ -18,7 +18,7 @@ import facechamp.domain.Tag;
 @Table(name = "user_tag")
 public class TagEntity implements Tag {
   @Id
-  @Column(name = "tag", unique = true, nullable = false, updatable = false)
+  @Column(name = "name", unique = true, nullable = false, updatable = false)
   private String name;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

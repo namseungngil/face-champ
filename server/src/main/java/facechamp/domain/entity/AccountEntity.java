@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import facechamp.domain.Account;
 import facechamp.domain.ClientType;
 import facechamp.domain.HardwareIdentifier;
+import facechamp.domain.Role;
 
 /**
  * @since 2016. 7. 25.
@@ -45,6 +48,9 @@ public class AccountEntity implements Account {
   private EmbeddedHardwareIdentifier device;
   @Column(name = "username", unique = true, nullable = false, updatable = false)
   private String                     username;
+  @Column(name = "role", nullable = false)
+  @Enumerated(EnumType.ORDINAL)
+  private Role                       role;
   @Column(name = "create_utc", nullable = true, updatable = false)
   private Instant                    create;
   @Column(name = "update_utc", nullable = true)
@@ -62,6 +68,7 @@ public class AccountEntity implements Account {
   public AccountEntity(ClientType type, String hwId, String username) {
     this.device = new EmbeddedHardwareIdentifier(type, hwId);
     this.username = username;
+    this.role = Role.INIT;
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +108,24 @@ public class AccountEntity implements Account {
   @Override
   public void setUsername(String username) {
     this.username = username;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @since 2016. 8. 19.
+   */
+  @Override
+  public Role getRole() {
+    return this.role;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @since 2016. 8. 19.
+   */
+  @Override
+  public void setRole(Role role) {
+    this.role = role;
   }
 
   /*

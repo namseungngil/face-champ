@@ -14,7 +14,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -37,7 +36,6 @@ import facechamp.reposigory.RepositoryAnchor;
     entityManagerFactoryRef = "entityManagerFactory",
     transactionManagerRef = "transactionManager")
 @EnableTransactionManagement
-@EnableJpaAuditing
 public class JpaConfiguration {
   private static final String   JPA_PROPERTY_PREFIX = "spring.jpa.properties.";
 
