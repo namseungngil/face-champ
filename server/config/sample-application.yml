@@ -8,6 +8,10 @@ spring:
   datasource:
     username: root
     password: ""
+  jpa:
+    generate-ddl: true
 logging:
   level:
     facechamp: trace
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace

@@ -11,12 +11,5 @@ spring:
       test-while-idle: true
       test-on-borrow: true
   jpa:
-    show-sql: false
+    show-sql: false # 설정 클래스에서 false 설정함.
     generate-ddl: false
-    properties:
-      javax.persistence.sharedCache.mode: ALL
-      hibernate.cache:
-        use_second_level_cache: true
-        use_query_cache: false
-        generateStatistics: false
-        region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
