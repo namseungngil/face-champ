@@ -39,7 +39,7 @@ public class DeviceRepositoryTest {
     this.entityManager.persist(expected);
 
     // When
-    DeviceEntity actual = this.deviceRepository.findByKey(expected.getKey());
+    DeviceEntity actual = this.deviceRepository.findOneByKey(expected.getKey());
 
     // Then
     assertThat(actual).isNotNull();

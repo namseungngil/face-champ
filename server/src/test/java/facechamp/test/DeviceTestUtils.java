@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import facechamp.domain.ClientType;
 import facechamp.domain.entity.DeviceEntity;
+import facechamp.reposigory.DeviceRepository;
 
 /**
  * @author Just Burrow
@@ -29,5 +30,20 @@ public abstract class DeviceTestUtils {
     } while (0L >= key);
 
     return new DeviceEntity(type, identifier, key);
+  }
+
+  /**
+   * @param repository
+   * @return
+   * @author Just Burrow
+   * @since 2016. 8. 27.
+   */
+  public static DeviceEntity device(DeviceRepository repository) {
+    DeviceEntity device;
+    do {
+      device = device();
+    } while (null != repository.findOneByKey(device.getKey())
+        || null != repository.findOneByTypeAndIdentifier(device.getType(), device.getIdentifier()));
+    return repository.save(device);
   }
 }

@@ -16,20 +16,19 @@ import facechamp.domain.Device;
 @Entity(name = "Device")
 @Table(name = "user_device",
     uniqueConstraints = {
-        @UniqueConstraint(name = "UQ_DEV_KEY", columnNames = { "dev_key" }),
-        @UniqueConstraint(name = "UQ_DEVICE_IDENTIFIER", columnNames = { "client_type", "identifier" })
-    })
+        @UniqueConstraint(name = "UQ_RAND_KEY", columnNames = { "rand_key" }),
+        @UniqueConstraint(name = "UQ_DEVICE_IDENTIFIER", columnNames = { "client_type", "identifier" }) })
 public class DeviceEntity extends AbstractUpdatableEntity implements Device {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "pk", nullable = false, insertable = false, updatable = false)
   private int        id;
-  @Column(name = "dev_key", nullable = false, unique = true, updatable = false)
+  @Column(name = "rand_key", nullable = false, unique = true, updatable = false)
   private long       key;
   @Column(name = "client_type", nullable = false, updatable = false)
   @Enumerated(EnumType.ORDINAL)
   private ClientType type;
-  @Column(name = "identifier")
+  @Column(name = "identifier", nullable = false, updatable = false)
   private String     identifier;
 
   /**
