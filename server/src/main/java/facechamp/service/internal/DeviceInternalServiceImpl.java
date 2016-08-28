@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import facechamp.domain.ClientType;
 import facechamp.domain.Device;
+import facechamp.domain.entity.ClientTypes;
 import facechamp.domain.entity.DeviceEntity;
 import facechamp.reposigory.DeviceRepository;
 import facechamp.service.ctx.CreateDeviceCtx;
@@ -39,7 +40,7 @@ class DeviceInternalServiceImpl implements DeviceInternalService {
       key = this.rand.nextLong();
     } while (0L >= key || null != this.deviceRepository.findOneByKey(key));
 
-    DeviceEntity device = new DeviceEntity(ctx.getType(), ctx.getIdentifier(), key);
+    DeviceEntity device = new DeviceEntity((ClientTypes) ctx.getType(), ctx.getIdentifier(), key);
     device = this.deviceRepository.save(device);
 
     return device;
@@ -47,6 +48,6 @@ class DeviceInternalServiceImpl implements DeviceInternalService {
 
   @Override
   public Device get(ClientType type, String identifier) {
-    return this.deviceRepository.findOneByTypeAndIdentifier(type, identifier);
+    return this.deviceRepository.findOneByTypeAndIdentifier((ClientTypes) type, identifier);
   }
 }

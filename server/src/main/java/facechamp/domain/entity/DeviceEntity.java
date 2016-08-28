@@ -22,14 +22,14 @@ public class DeviceEntity extends AbstractUpdatableEntity implements Device {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "pk", nullable = false, insertable = false, updatable = false)
-  private int        id;
+  private int         id;
   @Column(name = "rand_key", nullable = false, unique = true, updatable = false)
-  private long       key;
+  private long        key;
   @Column(name = "client_type", nullable = false, updatable = false)
   @Enumerated(EnumType.ORDINAL)
-  private ClientType type;
+  private ClientTypes type;
   @Column(name = "identifier", nullable = false, updatable = false)
-  private String     identifier;
+  private String      identifier;
 
   /**
    * @author Just Burrow
@@ -38,10 +38,10 @@ public class DeviceEntity extends AbstractUpdatableEntity implements Device {
   public DeviceEntity() {
   }
 
-  public DeviceEntity(ClientType type, String identifier, long key) {
+  public DeviceEntity(ClientTypes type, String identifier, long key) {
+    this.key = key;
     this.type = type;
     this.identifier = identifier;
-    this.key = key;
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,11 +57,21 @@ public class DeviceEntity extends AbstractUpdatableEntity implements Device {
     return this.key;
   }
 
+  /*
+   * (non-Javadoc)
+   * @author Just Burrow
+   * @since 2016. 8. 27.
+   */
   @Override
   public ClientType getType() {
     return this.type;
   }
 
+  /*
+   * (non-Javadoc)
+   * @author Just Burrow
+   * @since 2016. 8. 27.
+   */
   @Override
   public String getIdentifier() {
     return this.identifier;
@@ -94,7 +104,7 @@ public class DeviceEntity extends AbstractUpdatableEntity implements Device {
     return new StringBuilder(DeviceEntity.class.getSimpleName())
         .append(" [id=").append(this.id)
         .append(", key=").append(this.key)
-        .append(", clientType=").append(this.type)
+        .append(", type=").append(this.type)
         .append(", identifier=").append(this.identifier)
         .append(']').toString();
   }

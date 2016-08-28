@@ -2,8 +2,11 @@ package facechamp.reposigory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Instant;
+
 import javax.persistence.EntityManager;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import facechamp.domain.ClientType;
 import facechamp.domain.entity.DeviceEntity;
 import facechamp.test.DeviceTestUtils;
+import facechamp.test.UpdatableTestUtil;
 
 /**
  * @author Just Burrow
@@ -28,6 +32,13 @@ public class DeviceRepositoryTest {
   @Autowired
   private DeviceRepository deviceRepository;
 
+  private Instant          before;
+
+  @Before
+  public void setUp() {
+    this.before = Instant.now();
+  }
+
   @Test
   public void testFindAll() throws Exception {
     // Given
@@ -42,7 +53,8 @@ public class DeviceRepositoryTest {
     DeviceEntity actual = this.deviceRepository.findOneByKey(expected.getKey());
 
     // Then
-    assertThat(actual).isNotNull();
+    assertThat(actual).isNotNull()
+        .extracting("type", "identifier").containsExactly(type, identifier);
     assertThat(actual.getId()).isGreaterThan(id);
     if (expected != actual) {
       assertThat(actual).isNotSameAs(expected);
@@ -51,9 +63,6 @@ public class DeviceRepositoryTest {
         .isNotEqualTo(id);
     assertThat(actual.getKey()).isGreaterThan(0L)
         .isEqualTo(key);
-    assertThat(actual.getType()).isNotNull()
-        .isEqualTo(type);
-    assertThat(actual.getIdentifier()).isNotEmpty()
-        .isEqualTo(identifier);
+    UpdatableTestUtil.createdAfter(actual, this.before);
   }
 }

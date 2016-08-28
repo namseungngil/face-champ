@@ -4,7 +4,6 @@
 package facechamp.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 @Component
 public class TokenHandler {
-  @Value("${facechamp.jwt.token.secret}")
+  // @Value("${facechamp.jwt.token.secret}")
   private String      secret;
 
   @Autowired

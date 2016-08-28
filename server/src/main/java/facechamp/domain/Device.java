@@ -7,6 +7,7 @@ package facechamp.domain;
 public interface Device extends Updatable {
   /**
    * 등록 기기의 일련번호.
+   * (대체키)
    *
    * @return
    * @author Just Burrow
@@ -26,14 +27,14 @@ public interface Device extends Updatable {
   /**
    * @return
    * @author Just Burrow
-   * @since 2016. 8. 26.
+   * @since 2016. 8. 27.
    */
   public ClientType getType();
 
   /**
    * @return
    * @author Just Burrow
-   * @since 2016. 8. 26.
+   * @since 2016. 8. 27.
    */
   public String getIdentifier();
 }

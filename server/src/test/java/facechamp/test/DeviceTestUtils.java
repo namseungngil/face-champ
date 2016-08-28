@@ -3,7 +3,8 @@ package facechamp.test;
 import java.util.Random;
 import java.util.UUID;
 
-import facechamp.domain.ClientType;
+import facechamp.api.req.CreateDeviceReq;
+import facechamp.domain.entity.ClientTypes;
 import facechamp.domain.entity.DeviceEntity;
 import facechamp.reposigory.DeviceRepository;
 
@@ -15,6 +16,25 @@ public abstract class DeviceTestUtils {
   private static final Random R = new Random();
 
   /**
+   * 새 기기 정보를 등록할 수 있는 임의의 리퀘스트를 만든다.
+   * <b>nonce는 미설정.</b>
+   *
+   * @param repository
+   * @return
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  public static CreateDeviceReq createDeviceReq(DeviceRepository repository) {
+    ClientTypes type;
+    String identifier;
+    do {
+      type = EnumUtils.random(ClientTypes.class);
+      identifier = UUID.randomUUID().toString();
+    } while (null != repository.findOneByTypeAndIdentifier(type, identifier));
+    return new CreateDeviceReq(type.getId(), identifier);
+  }
+
+  /**
    * 임의의 값으로 초기화한 인스턴스.
    *
    * @return
@@ -22,7 +42,7 @@ public abstract class DeviceTestUtils {
    * @since 2016. 8. 26.
    */
   public static DeviceEntity device() {
-    ClientType type = ClientType.values()[DeviceTestUtils.R.nextInt(ClientType.values().length)];
+    ClientTypes type = EnumUtils.random(ClientTypes.class);
     String identifier = UUID.randomUUID().toString();
     long key;
     do {
@@ -33,6 +53,8 @@ public abstract class DeviceTestUtils {
   }
 
   /**
+   * 저장하지 않고, 저장된 기기 정보와 중복되지 않은 임의의 기기 정보를 만든다.
+   *
    * @param repository
    * @return
    * @author Just Burrow
@@ -43,7 +65,23 @@ public abstract class DeviceTestUtils {
     do {
       device = device();
     } while (null != repository.findOneByKey(device.getKey())
-        || null != repository.findOneByTypeAndIdentifier(device.getType(), device.getIdentifier()));
+        || null != repository.findOneByTypeAndIdentifier((ClientTypes) device.getType(), device.getIdentifier()));
     return repository.save(device);
+  }
+
+  /**
+   * 임의의 새로운 기기 정보를 저장한 후 반환한다.
+   *
+   * @param repository
+   * @return
+   * @author Just Burrow
+   * @since 2016. 8. 27.
+   */
+  public static DeviceEntity persistedDevice(DeviceRepository repository) {
+    return repository.save(device(repository));
+  }
+
+  protected DeviceTestUtils() {
+    throw new UnsupportedOperationException();
   }
 }

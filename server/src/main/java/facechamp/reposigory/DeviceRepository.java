@@ -3,7 +3,7 @@ package facechamp.reposigory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import facechamp.domain.ClientType;
+import facechamp.domain.entity.ClientTypes;
 import facechamp.domain.entity.DeviceEntity;
 
 /**
@@ -19,7 +19,7 @@ public interface DeviceRepository extends JpaRepository<DeviceEntity, Integer> {
    * @author Just Burrow
    * @since 2016. 8. 27.
    */
-  public DeviceEntity findOneByTypeAndIdentifier(ClientType type, String identifier);
+  public DeviceEntity findOneByTypeAndIdentifier(ClientTypes type, String identifier);
 
   /**
    * @param key

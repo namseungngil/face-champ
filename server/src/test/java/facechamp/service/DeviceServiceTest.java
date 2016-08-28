@@ -15,11 +15,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import facechamp.cmd.CreateDeviceCmd;
 import facechamp.cmd.ReadDeviceCmd;
 import facechamp.domain.ClientType;
+import facechamp.domain.entity.ClientTypes;
 import facechamp.domain.entity.DeviceEntity;
 import facechamp.dto.DeviceDto;
 import facechamp.reposigory.DeviceRepository;
 import facechamp.test.DeviceTestUtils;
-import facechamp.test.EnumUtil;
+import facechamp.test.EnumUtils;
 import facechamp.test.UpdatableTestUtil;
 import facechamp.util.Return;
 
@@ -42,7 +43,7 @@ public class DeviceServiceTest {
   public void testCreate() throws Exception {
     // Given
     final long cntBefore = this.deviceRepository.count();
-    final ClientType type = EnumUtil.random(ClientType.class);
+    final ClientTypes type = EnumUtils.random(ClientTypes.class);
     final String identifier = UUID.randomUUID().toString();
     CreateDeviceCmd cmd = new CreateDeviceCmd(type, identifier);
 
@@ -52,8 +53,8 @@ public class DeviceServiceTest {
 
     // Then
     assertThat(dto).isNotNull()
-        .extracting("type", "identifier").containsExactly(type, identifier);
-    assertThat(dto.getId()).isGreaterThan(0);
+        .extracting("type", "identifier").containsExactly(type.ordinal(), identifier);
+    assertThat(dto.getId()).isGreaterThan((int) cntBefore);
     assertThat(dto.getKey()).isGreaterThan(0L);
     UpdatableTestUtil.createdAfter(dto, this.before);
 
@@ -61,7 +62,7 @@ public class DeviceServiceTest {
   }
 
   @Test
-  public void testReadWithHwId() throws Exception {
+  public void testReadWithTypeAndIdentifier() throws Exception {
     // Given
     final DeviceEntity expected = DeviceTestUtils.device(this.deviceRepository);
     final ClientType type = expected.getType();
@@ -76,7 +77,7 @@ public class DeviceServiceTest {
     assertThat(actual).isNotNull()
         .isNotEqualTo(expected)
         .extracting("id", "key", "type", "identifier")
-        .containsExactly(expected.getId(), expected.getKey(), type, identifier);
+        .containsExactly(expected.getId(), expected.getKey(), type.getId(), identifier);
     UpdatableTestUtil.createdAfter(actual, this.before);
   }
 }

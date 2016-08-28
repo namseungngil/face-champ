@@ -18,10 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import facechamp.domain.ClientType;
 import facechamp.domain.Device;
+import facechamp.domain.entity.ClientTypes;
 import facechamp.domain.entity.DeviceEntity;
 import facechamp.service.ctx.CreateDeviceCtx;
 import facechamp.test.DeviceTestUtils;
-import facechamp.test.EnumUtil;
+import facechamp.test.EnumUtils;
+import facechamp.test.UpdatableTestUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,7 +45,7 @@ public class DeviceInternalServiceTest {
   @Test
   public void testCreate() throws Exception {
     // Given
-    final ClientType type = EnumUtil.random(ClientType.class);
+    final ClientTypes type = EnumUtils.random(ClientTypes.class);
     final String identifier = UUID.randomUUID().toString();
     final CreateDeviceCtx ctx = new CreateDeviceCtx(type, identifier);
 
@@ -53,8 +55,9 @@ public class DeviceInternalServiceTest {
     // Then
     assertThat(device).isNotNull();
     assertThat(device.getId()).isGreaterThan(0);
-    assertThat(device.getType()).isEqualTo(type);
     assertThat(device.getKey()).isGreaterThan(0L);
+    assertThat(device).isNotNull()
+        .extracting("type", "identifier").containsExactly(type, identifier);
     assertThat(device.getCreate()).isGreaterThanOrEqualTo(this.before);
     assertThat(device.getUpdate()).isEqualTo(device.getCreate());
   }
@@ -72,13 +75,11 @@ public class DeviceInternalServiceTest {
 
     // Then
     assertThat(actual).isNotNull()
-        .isEqualTo(expected);
+        .isEqualTo(expected)
+        .extracting("type", "identifier").containsExactly(type, identifier);
     assertThat(actual.getId()).isGreaterThan(0);
     assertThat(actual.getKey()).isEqualTo(expected.getKey())
         .isGreaterThan(0L);
-    assertThat(actual.getType()).isNotNull()
-        .isEqualTo(type);
-    assertThat(actual.getIdentifier()).isNotEmpty()
-        .isEqualTo(identifier);
+    UpdatableTestUtil.createdAfter(actual, this.before);
   }
 }

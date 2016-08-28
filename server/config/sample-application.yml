@@ -1,9 +1,7 @@
 facechamp:
-  authorizeToken:
-    secret: otp(timestamp)SigningSecretString
-    ttl:    60000    # milliseconds
-  jwt.token:
-    secret: jwtSigningSecretString
+  api:
+    nonce:
+      secret: onm1buslKKOzDfa9qZsP
 spring:
   datasource:
     username: root
@@ -14,4 +12,3 @@ logging:
   level:
     facechamp: trace
     org.hibernate.SQL: debug
-    org.hibernate.type: trace
