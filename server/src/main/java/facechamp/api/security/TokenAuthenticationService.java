@@ -1,7 +1,7 @@
 /**
  *
  */
-package facechamp.security;
+package facechamp.api.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,30 +16,34 @@ import org.springframework.stereotype.Component;
  * @author Just Burrow just.burrow@lul.kr
  */
 @Component
-class TokenAuthenticationServiceImpl implements TokenAuthenticationService {
+class TokenAuthenticationService {
   private static final String AUTH_HEADER_NAME = "X-AUTH-TOKEN";
 
   @Autowired
   private TokenHandler        tokenHandler;
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // <I>TokenAuthenticationService
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /*
-   * (non-Javadoc)
+  /**
+   * TODO
+   *
    * @since 2016. 7. 28.
    */
-  @Override
+  // public void addAuthentication(ServerHttpResponse response, UserAuthentication authentication) {
+  // final User user = authentication.getDetails();
+  // response.getHeaders().add(AUTH_HEADER_NAME, this.tokenHandler.createTokenForUser(user));
+  // }
+
+  /**
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
   public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) {
-    final User user = authentication.getDetails();
+    User user = authentication.getDetails();
     response.addHeader(AUTH_HEADER_NAME, this.tokenHandler.createTokenForUser(user));
   }
 
-  /*
-   * (non-Javadoc)
+  /**
    * @since 2016. 7. 28.
    */
-  @Override
   public Authentication getAuthentication(HttpServletRequest request) {
     final String token = request.getHeader(AUTH_HEADER_NAME);
     if (token != null) {

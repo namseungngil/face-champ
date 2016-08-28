@@ -7,6 +7,8 @@ import facechamp.api.req.CreateDeviceReq;
 import facechamp.domain.entity.ClientTypes;
 import facechamp.domain.entity.DeviceEntity;
 import facechamp.reposigory.DeviceRepository;
+import facechamp.service.ctx.CreateDeviceCtx;
+import facechamp.service.internal.DeviceInternalService;
 
 /**
  * @author Just Burrow
@@ -58,15 +60,34 @@ public abstract class DeviceTestUtils {
    * @param repository
    * @return
    * @author Just Burrow
+   * @throws Exception
    * @since 2016. 8. 27.
    */
-  public static DeviceEntity device(DeviceRepository repository) {
+  public static DeviceEntity device(DeviceRepository repository) throws Exception {
     DeviceEntity device;
     do {
       device = device();
     } while (null != repository.findOneByKey(device.getKey())
         || null != repository.findOneByTypeAndIdentifier((ClientTypes) device.getType(), device.getIdentifier()));
-    return repository.save(device);
+    device = repository.save(device);
+    Thread.sleep(1L);
+    return device;
+  }
+
+  /**
+   * 사용하지 않은 임의의 키를 반환한다.
+   *
+   * @param repository
+   * @return
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  public static long freeKey(DeviceRepository repository) {
+    long key;
+    do {
+      key = R.nextLong();
+    } while (0L >= key || null != repository.findOneByKey(key));
+    return key;
   }
 
   /**
@@ -75,10 +96,28 @@ public abstract class DeviceTestUtils {
    * @param repository
    * @return
    * @author Just Burrow
+   * @throws Exception
    * @since 2016. 8. 27.
    */
-  public static DeviceEntity persistedDevice(DeviceRepository repository) {
+  public static DeviceEntity persistedDevice(DeviceRepository repository) throws Exception {
     return repository.save(device(repository));
+  }
+
+  /**
+   * @param service
+   * @return
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  public static DeviceEntity persistedDevice(DeviceInternalService service) {
+    ClientTypes type;
+    String identifier;
+    do {
+      type = EnumUtils.random(ClientTypes.class);
+      identifier = UUID.randomUUID().toString();
+    } while (null != service.get(type, identifier));
+
+    return (DeviceEntity) service.create(new CreateDeviceCtx(type, identifier));
   }
 
   protected DeviceTestUtils() {

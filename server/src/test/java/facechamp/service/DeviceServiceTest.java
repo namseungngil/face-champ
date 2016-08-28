@@ -3,6 +3,7 @@ package facechamp.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
+import java.util.Random;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -33,10 +34,12 @@ public class DeviceServiceTest {
   private DeviceService    deviceService;
 
   private Instant          before;
+  private Random           rand;
 
   @Before
   public void setUp() throws Exception {
     this.before = Instant.now();
+    this.rand = new Random();
   }
 
   @Test
@@ -79,5 +82,21 @@ public class DeviceServiceTest {
         .extracting("id", "key", "type", "identifier")
         .containsExactly(expected.getId(), expected.getKey(), type.getId(), identifier);
     UpdatableTestUtil.createdAfter(actual, this.before);
+  }
+
+  @Test
+  public void testReadWithDeviceKeyNotExists() throws Exception {
+    // Given
+    long deviceKey;
+    do {
+      deviceKey = this.rand.nextLong();
+    } while (0L >= deviceKey || null != this.deviceRepository.findOneByKey(deviceKey));
+
+    // When
+    Return<DeviceDto> rv = this.deviceService.read(deviceKey);
+    DeviceDto dto = rv.value();
+
+    // Then
+    assertThat(dto).isNull();
   }
 }

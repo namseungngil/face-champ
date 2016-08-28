@@ -27,6 +27,20 @@ public interface Device extends Updatable {
   /**
    * @return
    * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  public Account getOwner();
+
+  /**
+   * @param account
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  public void setOwner(Account account);
+
+  /**
+   * @return
+   * @author Just Burrow
    * @since 2016. 8. 27.
    */
   public ClientType getType();

@@ -11,7 +11,7 @@ import facechamp.api.req.CreateDeviceReq;
 import facechamp.api.resp.ApiGuideResp;
 import facechamp.api.resp.NonceResp;
 
-@RequestMapping("/device")
+@RequestMapping("/devices")
 public interface DeviceController {
   /**
    * 기기 등록용 nonce 발급.

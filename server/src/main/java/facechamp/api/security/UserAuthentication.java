@@ -1,7 +1,7 @@
 /**
  *
  */
-package facechamp.security;
+package facechamp.api.security;
 
 import java.util.Collection;
 
@@ -90,5 +90,21 @@ public class UserAuthentication implements Authentication {
   @Override
   public void setAuthenticated(boolean authenticated) {
     this.authenticated = authenticated;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Object
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /*
+   * (non-Javadoc)
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  @Override
+  public String toString() {
+    return new StringBuilder(UserAuthentication.class.getSimpleName())
+        .append(" [user=").append(this.user)
+        .append(", authenticated=").append(this.authenticated)
+        .append("]").toString();
   }
 }

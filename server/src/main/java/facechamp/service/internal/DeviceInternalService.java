@@ -32,4 +32,12 @@ public interface DeviceInternalService {
    * @since 2016. 8. 27.
    */
   public Device get(ClientType type, String identifier);
+
+  /**
+   * @param deviceKey
+   * @return
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  public Device read(long deviceKey);
 }

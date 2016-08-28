@@ -69,7 +69,10 @@ public class DeviceControllerTest {
 
     // Then
     assertThat(resp).isNotNull()
-        .extracting("method", "nextApi").containsExactly(RequestMethod.GET, "/account/create");
+        .extracting("method").containsExactly(RequestMethod.GET);
+    assertThat(resp.getNextApi()).isEqualTo("/accounts/create/{deviceKey}");
+    assertThat((long) resp.getProperty("deviceKey")).isNotNull()
+        .isGreaterThan(0L);
   }
 
   @Test

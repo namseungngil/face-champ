@@ -18,8 +18,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /*
    * (non-Javadoc)
-   * @see
-   * @since 2016. 7. 28.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   @Override
   public void addInterceptors(InterceptorRegistry registry) {

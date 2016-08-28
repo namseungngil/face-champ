@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import facechamp.security.StatelessAuthenticationFilter;
+import facechamp.api.security.StatelessAuthenticationFilter;
 
 /**
  * @since 2016. 7. 28.
@@ -25,6 +25,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   // <A>WebSecurityConfigurerAdapter
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /*
+   * TODO
    * (non-Javadoc)
    * @since 2016. 7. 28.
    */
@@ -41,12 +42,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("**/*.css").permitAll()
         .antMatchers("**/*.js").permitAll()
 
-        // Allow anonymous logins
-        .antMatchers("/device/**").anonymous()
+        // Allow anonymous for logins
+        .antMatchers("/devices/**", "/accounts/create/*", "/accounts").anonymous()
 
         // All other request need to be authenticated
         .anyRequest().authenticated();
-
-    http.addFilterBefore(this.statelessAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    // http.addFilterBefore(this.statelessAuthenticationFilter, HeaderWriterFilter.class);
+    // http.addFilterBefore(this.statelessAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterAt(this.statelessAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
   }
 }

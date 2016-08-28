@@ -4,12 +4,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import facechamp.domain.Account;
 import facechamp.domain.ClientType;
 import facechamp.domain.Device;
 
@@ -17,7 +21,8 @@ import facechamp.domain.Device;
 @Table(name = "user_device",
     uniqueConstraints = {
         @UniqueConstraint(name = "UQ_RAND_KEY", columnNames = { "rand_key" }),
-        @UniqueConstraint(name = "UQ_DEVICE_IDENTIFIER", columnNames = { "client_type", "identifier" }) })
+        @UniqueConstraint(name = "UQ_DEVICE_IDENTIFIER", columnNames = { "client_type", "identifier" }),
+        @UniqueConstraint(name = "FK_DEVICE_PK_ACCOUNT", columnNames = { "account" }) })
 public class DeviceEntity extends AbstractUpdatableEntity implements Device {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +35,12 @@ public class DeviceEntity extends AbstractUpdatableEntity implements Device {
   private ClientTypes type;
   @Column(name = "identifier", nullable = false, updatable = false)
   private String      identifier;
+  @OneToOne(targetEntity = AccountEntity.class)
+  @JoinColumn(name = "account",
+      foreignKey = @ForeignKey(name = "FK_DEVICE_PK_ACCOUNT"),
+      referencedColumnName = "pk",
+      unique = true)
+  private Account     owner;
 
   /**
    * @author Just Burrow
@@ -55,6 +66,30 @@ public class DeviceEntity extends AbstractUpdatableEntity implements Device {
   @Override
   public long getKey() {
     return this.key;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  @Override
+  public Account getOwner() {
+    return this.owner;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  @Override
+  public void setOwner(Account account) {
+    if (!(account instanceof AccountEntity)) {
+      throw new IllegalArgumentException("account type : " + account.getClass());
+    }
+
+    this.owner = account;
   }
 
   /*

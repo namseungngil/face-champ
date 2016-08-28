@@ -50,4 +50,17 @@ class DeviceInternalServiceImpl implements DeviceInternalService {
   public Device get(ClientType type, String identifier) {
     return this.deviceRepository.findOneByTypeAndIdentifier((ClientTypes) type, identifier);
   }
+
+  /*
+   * (non-Javadoc)
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  @Override
+  public Device read(long deviceKey) {
+    if (0L >= deviceKey) {
+      return null;
+    }
+    return this.deviceRepository.findOneByKey(deviceKey);
+  }
 }

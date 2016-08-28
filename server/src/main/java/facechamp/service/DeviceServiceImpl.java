@@ -15,7 +15,7 @@ import facechamp.domain.ClientType;
 import facechamp.domain.Device;
 import facechamp.domain.entity.ClientTypes;
 import facechamp.domain.entity.DeviceEntity;
-import facechamp.dto.AccountDto;
+import facechamp.dto.AccessOwnerAccountResult;
 import facechamp.dto.DeviceDto;
 import facechamp.service.ctx.CreateDeviceCtx;
 import facechamp.service.internal.DeviceInternalService;
@@ -71,7 +71,7 @@ class DeviceServiceImpl extends AbstractService implements DeviceService {
    * @since 2016. 8. 27.
    */
   @Override
-  public Return<AccountDto> getAccount(ReadOwnerAccountCmd cmd) {
+  public Return<AccessOwnerAccountResult> getAccount(ReadOwnerAccountCmd cmd) {
     if (log.isTraceEnabled()) {
       log.trace(cmd.toString());
     }
@@ -79,8 +79,7 @@ class DeviceServiceImpl extends AbstractService implements DeviceService {
     Device device = this.deviceInternalService.get(type, cmd.getIdentifier());
     if (null == device) {// 신규 기기 등록.
       CreateDeviceCtx ctx = new CreateDeviceCtx(type, cmd.getIdentifier());
-      device = this.deviceInternalService.create(ctx);
-      return () -> null;
+      return () -> new AccessOwnerAccountResult(this.deviceInternalService.create(ctx));
     }
 
     if (log.isTraceEnabled()) {
@@ -88,5 +87,20 @@ class DeviceServiceImpl extends AbstractService implements DeviceService {
     }
     // TODO access account
     return () -> null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  @Override
+  public Return<DeviceDto> read(long deviceKey) {
+    if (0L >= deviceKey) {
+      return () -> null;
+    }
+
+    Device device = this.deviceInternalService.read(deviceKey);
+    return () -> null == device ? null : this.mapper.map(device, DeviceDto.class);
   }
 }

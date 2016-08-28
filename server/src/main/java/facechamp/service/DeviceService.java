@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import facechamp.cmd.CreateDeviceCmd;
 import facechamp.cmd.ReadDeviceCmd;
 import facechamp.cmd.ReadOwnerAccountCmd;
-import facechamp.dto.AccountDto;
+import facechamp.dto.AccessOwnerAccountResult;
 import facechamp.dto.DeviceDto;
 import facechamp.util.Return;
 
@@ -39,5 +39,13 @@ public interface DeviceService {
    * @author Just Burrow
    * @since 2016. 8. 27.
    */
-  public Return<AccountDto> getAccount(ReadOwnerAccountCmd cmd);
+  public Return<AccessOwnerAccountResult> getAccount(ReadOwnerAccountCmd cmd);
+
+  /**
+   * @param deviceKey
+   * @return
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   */
+  public Return<DeviceDto> read(long deviceKey);
 }
