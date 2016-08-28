@@ -3,6 +3,8 @@ package facechamp.service;
 import javax.annotation.PostConstruct;
 
 import org.modelmapper.PropertyMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ import facechamp.util.Return;
 
 @Service
 class DeviceServiceImpl extends AbstractService implements DeviceService {
+  private static final Logger   log = LoggerFactory.getLogger(DeviceService.class);
+
   @Autowired
   private DeviceInternalService deviceInternalService;
 
@@ -39,6 +43,9 @@ class DeviceServiceImpl extends AbstractService implements DeviceService {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   @Override
   public Return<DeviceDto> create(CreateDeviceCmd cmd) {
+    if (log.isTraceEnabled()) {
+      log.trace(cmd.toString());
+    }
     CreateDeviceCtx ctx = new CreateDeviceCtx(cmd.getType(), cmd.getIdentifier());
     Device device = this.deviceInternalService.create(ctx);
     return () -> this.mapper.map(device, DeviceDto.class);
@@ -51,6 +58,9 @@ class DeviceServiceImpl extends AbstractService implements DeviceService {
    */
   @Override
   public Return<DeviceDto> read(ReadDeviceCmd cmd) {
+    if (log.isTraceEnabled()) {
+      log.trace(cmd.toString());
+    }
     Device device = this.deviceInternalService.get(cmd.getType(), cmd.getIdentifier());
     return () -> this.mapper.map(device, DeviceDto.class);
   }
@@ -62,14 +72,21 @@ class DeviceServiceImpl extends AbstractService implements DeviceService {
    */
   @Override
   public Return<AccountDto> getAccount(ReadOwnerAccountCmd cmd) {
+    if (log.isTraceEnabled()) {
+      log.trace(cmd.toString());
+    }
     ClientType type = ClientTypes.valueOf(cmd.getType());
     Device device = this.deviceInternalService.get(type, cmd.getIdentifier());
-    if (null == device) {
+    if (null == device) {// 신규 기기 등록.
       CreateDeviceCtx ctx = new CreateDeviceCtx(type, cmd.getIdentifier());
       device = this.deviceInternalService.create(ctx);
       return () -> null;
     }
+
+    if (log.isTraceEnabled()) {
+      log.trace(device.toString());
+    }
     // TODO access account
-    return null;
+    return () -> null;
   }
 }

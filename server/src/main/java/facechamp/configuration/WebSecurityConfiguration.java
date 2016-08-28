@@ -42,7 +42,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("**/*.js").permitAll()
 
         // Allow anonymous logins
-        .antMatchers("/auth/**").permitAll()
+        .antMatchers("/device/**").anonymous()
 
         // All other request need to be authenticated
         .anyRequest().authenticated();

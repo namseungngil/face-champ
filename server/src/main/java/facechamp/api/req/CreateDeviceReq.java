@@ -2,6 +2,7 @@ package facechamp.api.req;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import facechamp.domain.ClientType;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class CreateDeviceReq extends NonceReq {
    * @since 2016. 8. 27.
    */
   @NotNull
-  @Min(10)
+  @Size(min = 10)
   private String identifier;
 
   /**
