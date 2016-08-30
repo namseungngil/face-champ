@@ -32,6 +32,9 @@ public class NonceResp extends AbstractResp {
    */
   private String token;
 
+  public NonceResp() {
+  }
+
   /**
    * @author Just Burrow
    * @since 2016. 8. 27.
