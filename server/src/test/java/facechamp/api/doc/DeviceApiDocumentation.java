@@ -21,6 +21,7 @@ import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.web.client.RestTemplate;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.builder.RequestSpecBuilder;
@@ -44,7 +45,9 @@ public class DeviceApiDocumentation extends AbstractApiDocumentation {
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    this.spec = new RequestSpecBuilder().addFilter(documentationConfiguration(this.jUnitRestDocumentation)).build();
+    this.spec = new RequestSpecBuilder()
+        .addFilter(documentationConfiguration(this.jUnitRestDocumentation))
+        .build();
   }
 
   @Test
@@ -52,7 +55,7 @@ public class DeviceApiDocumentation extends AbstractApiDocumentation {
     // Given
     RequestSpecification specification = RestAssured.given(this.spec)
         .accept(MimeTypeUtils.APPLICATION_JSON_VALUE)
-        .filter(document("device/createNonce", responseFields(this.concat(META_DESCRIPTOR, ISSUE_DESCRIPTORS))));
+        .filter(document("devices/createNonce", responseFields(this.concat(META_DESCRIPTOR, ISSUE_DESCRIPTORS))));
 
     // When
     Response response = specification.when().get("/devices/create");
@@ -67,11 +70,7 @@ public class DeviceApiDocumentation extends AbstractApiDocumentation {
     // Given
     final int type = EnumUtils.random(ClientTypes.class).getId();
     final String identifier = UUID.randomUUID().toString();
-    final NonceResp nonce = RestAssured
-        .given(new RequestSpecBuilder().addFilter(documentationConfiguration(this.jUnitRestDocumentation)).build())
-        .accept(MimeTypeUtils.APPLICATION_JSON_VALUE)
-        .contentType(ContentType.JSON)
-        .when().get("/devices/create").as(NonceResp.class);
+    NonceResp nonce = new RestTemplate().getForObject("http://localhost:8080/devices/create", NonceResp.class);
 
     ConstraintDescriptions constrats = new ConstraintDescriptions(CreateDeviceReq.class);
     FieldDescriptor[] reqFields = this.concatFieldDescriptors(
@@ -80,11 +79,16 @@ public class DeviceApiDocumentation extends AbstractApiDocumentation {
         fieldWithPath("identifier").type(STRING).description("클라이언트를 설치한 기기 ID. UUID, Vendor ID 등.")
             .attributes(key("identifier").value(constrats.descriptionsForProperty("identifier"))),
         CONSUME_DESCRIPTORS);
+    FieldDescriptor[] respFields = this.concatFieldDescriptors(
+        META_DESCRIPTOR,
+        fieldWithPath("method").description("HTTP Method"),
+        fieldWithPath("nextApi").description("Path(URI"),
+        fieldWithPath("properties").description("nextApi에 요청을 보낼 때 사용할 값."));
 
     RequestSpecification specification = RestAssured.given(this.spec)
         .accept(MimeTypeUtils.APPLICATION_JSON_VALUE)
         .contentType(ContentType.JSON)
-        .filter(document("device/create", requestFields(reqFields)));
+        .filter(document("devices/create", requestFields(reqFields), responseFields(respFields)));
 
     // When
     CreateDeviceReq req = new CreateDeviceReq(type, identifier);

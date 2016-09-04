@@ -1,0 +1,18 @@
+[[device-create-nonce]]
+=== 기기 정보 등록
+
+==== Response structure
+ 
+include::{snippets}/devices/create/response-fields.adoc[]
+
+==== Example curl request
+
+include::{snippets}/devices/create/curl-request.adoc[]
+
+==== Example http request
+
+include::{snippets}/devices/create/http-request.adoc[]
+
+==== Example response
+
+include::{snippets}/devices/create/http-response.adoc[]
