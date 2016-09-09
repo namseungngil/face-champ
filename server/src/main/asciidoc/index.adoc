@@ -1,0 +1,20 @@
+[[index]]
+:toc:
+
+[[api-devices]]
+== 기기
+
+기기 정보를 기반으로 인증한다. 사용자의 계정 등록의 경우도, 인증에 사용할 기기 정보를 먼저 등록한 후에 등록한 기기의 정보로 계정을 등록한다.
+
+include::devices/createNonce.adoc[]
+
+include::devices/create.adoc[]
+
+[[api-accounts]]
+== 계정
+
+등록한 기기 정보를 바탕으로 계정 등록을 진행한다. 즉, 등록된 기기가 없으면 계정을 등록할 수 없다.
+
+include::accounts/createNonce.adoc[]
+
+include::accounts/create.adoc[]

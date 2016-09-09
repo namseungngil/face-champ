@@ -1,7 +1,11 @@
 package facechamp.api.controller;
 
+import static java.lang.String.format;
+
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,8 +22,10 @@ import facechamp.service.DeviceService;
 
 @RestController
 class DeviceControllerImpl extends AbstractController implements DeviceController {
+  private static final Logger log = LoggerFactory.getLogger(DeviceController.class);
+
   @Autowired
-  private DeviceService deviceService;
+  private DeviceService       deviceService;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <I>DeviceController
@@ -47,6 +53,9 @@ class DeviceControllerImpl extends AbstractController implements DeviceControlle
     }
     ApiGuideResp resp = new ApiGuideResp(RequestMethod.GET, api);
     resp.addProperty("deviceKey", result.getDeviceKey());
+    if (log.isTraceEnabled()) {
+      log.trace(format("req=%s, resp=%s", req, resp));
+    }
     return resp;
   }
 }

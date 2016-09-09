@@ -71,7 +71,7 @@ public class AccountEntity extends AbstractUpdatableEntity implements Account {
   public void setName(String name) {
     if (null == name) {
       throw new NullPointerException("name");
-    } else if (!name.matches("\\S.{0,43}\\S")) {
+    } else if (!name.matches(NAME_PATTERN)) {
       throw new IllegalArgumentException("illegal name : " + name);
     }
     this.name = name;

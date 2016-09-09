@@ -15,7 +15,7 @@ DROP SCHEMA IF EXISTS `facechamp` ;
 -- -----------------------------------------------------
 -- Schema facechamp
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `facechamp` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE SCHEMA IF NOT EXISTS `facechamp` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 SHOW WARNINGS;
 USE `facechamp` ;
 
