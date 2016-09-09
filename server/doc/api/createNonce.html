@@ -414,7 +414,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect2">
-<h3 id="device-create-nonce">기기 정보 등록용 nonce 발급</h3>
+<h3 id="api-devices-create-nonce">기기 정보 등록용 nonce 발급</h3>
 <div class="sect3">
 <h4 id="_response_structure">Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
@@ -439,12 +439,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>create</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰을 생성한 시각. UTC Milliseconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰을 생성한 시각. 8Byte long UTC Milliseconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰의 유효기간. Milliseconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰의 유효기간. 8Byte long Milliseconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>token</code></p></td>
@@ -485,10 +485,10 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
 Transfer-Encoding: chunked
-Date: Sun, 04 Sep 2016 11:50:26 GMT
+Date: Fri, 09 Sep 2016 05:17:02 GMT
 Content-Length: 98
 
-{"meta":{},"create":1472989826747,"ttl":300000,"token":"d0256e73d69dce7274c37efe2ebc608725854294"}</code></pre>
+{"meta":{},"create":1473398223026,"ttl":300000,"token":"d9310f7481661ade54d912507bdbbf6c7c104348"}</code></pre>
 </div>
 </div>
 </div>
@@ -496,7 +496,7 @@ Content-Length: 98
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-09-04 20:40:17 +09:00
+Last updated 2016-09-06 12:25:39 +09:00
 </div>
 </div>
 </body>

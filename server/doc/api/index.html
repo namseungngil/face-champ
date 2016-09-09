@@ -414,10 +414,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#index">기기</a>
+<li><a href="#api-devices">기기</a>
 <ul class="sectlevel2">
-<li><a href="#device-create-nonce">기기 정보 등록용 nonce 발급</a></li>
-<li><a href="#device-create-nonce">기기 정보 등록</a></li>
+<li><a href="#api-devices-create-nonce">기기 정보 등록용 nonce 발급</a></li>
+<li><a href="#api-devices-create">기기 정보 등록</a></li>
+</ul>
+</li>
+<li><a href="#api-accounts">계정</a>
+<ul class="sectlevel2">
+<li><a href="#api-accounts-create-nonce">계정 등록용 nonce 발급</a></li>
+<li><a href="#api-accounts-create">계정 등록</a></li>
 </ul>
 </li>
 </ul>
@@ -425,10 +431,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="index">기기</h2>
+<h2 id="api-devices">기기</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>기기 정보를 기반으로 인증한다. 사용자의 계정 등록의 경우도, 인증에 사용할 기기 정보를 먼저 등록한 후에 등록한 기기의 정보로 계정을 등록한다.</p>
+</div>
 <div class="sect2">
-<h3 id="device-create-nonce">기기 정보 등록용 nonce 발급</h3>
+<h3 id="api-devices-create-nonce">기기 정보 등록용 nonce 발급</h3>
 <div class="sect3">
 <h4 id="_response_structure">Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
@@ -453,12 +462,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>create</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰을 생성한 시각. UTC Milliseconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰을 생성한 시각. 8Byte long UTC Milliseconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰의 유효기간. Milliseconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰의 유효기간. 8Byte long Milliseconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>token</code></p></td>
@@ -499,16 +508,19 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
 Transfer-Encoding: chunked
-Date: Sun, 04 Sep 2016 11:50:26 GMT
+Date: Fri, 09 Sep 2016 05:17:02 GMT
 Content-Length: 98
 
-{"meta":{},"create":1472989826747,"ttl":300000,"token":"d0256e73d69dce7274c37efe2ebc608725854294"}</code></pre>
+{"meta":{},"create":1473398223026,"ttl":300000,"token":"d9310f7481661ade54d912507bdbbf6c7c104348"}</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="device-create-nonce">기기 정보 등록</h3>
+<h3 id="api-devices-create">기기 정보 등록</h3>
+<div class="paragraph">
+<p><code>nonce`를 사용한다. `nonce</code> 발급은 <a href="#api-devices-create-nonce">nonce 발급</a>을 참조.</p>
+</div>
 <div class="sect3">
 <h4 id="_response_structure_2">Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
@@ -552,7 +564,7 @@ Content-Length: 98
 <h4 id="_example_curl_request_2">Example curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/devices' -i -X POST -H 'Accept: application/json' -H 'Content-Type: application/json; charset=UTF-8' -d '{"nonceCreate":1472989827190,"nonceTtl":300000,"nonceToken":"7422525da5debb5a6c3cdf76d7b556270713f743","type":2,"identifier":"af7d6c97-a669-4109-b0be-809415abddc0"}'</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/devices' -i -X POST -H 'Accept: application/json' -H 'Content-Type: application/json; charset=UTF-8' -d '{"nonceCreate":1473398223126,"nonceTtl":300000,"nonceToken":"14fe322067ba0d3c7ac3061e6ea317c63aa9ad1d","type":2,"identifier":"35231bc2-fc52-4d26-b9e2-29542b4088de"}'</code></pre>
 </div>
 </div>
 </div>
@@ -566,7 +578,7 @@ Content-Type: application/json; charset=UTF-8
 Host: localhost:8080
 Content-Length: 164
 
-{"nonceCreate":1472989827190,"nonceTtl":300000,"nonceToken":"7422525da5debb5a6c3cdf76d7b556270713f743","type":2,"identifier":"af7d6c97-a669-4109-b0be-809415abddc0"}</code></pre>
+{"nonceCreate":1473398223126,"nonceTtl":300000,"nonceToken":"14fe322067ba0d3c7ac3061e6ea317c63aa9ad1d","type":2,"identifier":"35231bc2-fc52-4d26-b9e2-29542b4088de"}</code></pre>
 </div>
 </div>
 </div>
@@ -583,10 +595,259 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
 Transfer-Encoding: chunked
-Date: Sun, 04 Sep 2016 11:50:26 GMT
+Date: Fri, 09 Sep 2016 05:17:02 GMT
 Content-Length: 114
 
-{"meta":{},"method":"GET","nextApi":"/accounts/create/{deviceKey}","properties":{"deviceKey":8343994905991567136}}</code></pre>
+{"meta":{},"method":"GET","nextApi":"/accounts/create/{deviceKey}","properties":{"deviceKey":2118970028701645848}}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="api-accounts">계정</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>등록한 기기 정보를 바탕으로 계정 등록을 진행한다. 즉, 등록된 기기가 없으면 계정을 등록할 수 없다.</p>
+</div>
+<div class="sect2">
+<h3 id="api-accounts-create-nonce">계정 등록용 nonce 발급</h3>
+<div class="sect3">
+<h4 id="_request">Request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /accounts/create/234515640216992883 HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response">Response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Fri, 09 Sep 2016 05:17:01 GMT
+Content-Length: 98
+
+{"meta":{},"create":1473398222494,"ttl":300000,"token":"caf78bed5b7f1527ee18101328126685062c4d51"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameters">Path Parameters</h4>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. /accounts/create/{deviceKey}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deviceKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기기를 등록할 때 발급받은 기기 키.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_fields">Response Fields</h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>meta</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">디버깅 정보를 담든 공통 필드.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰을 생성한 시각. 8Byte long UTC Milliseconds.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 토큰의 유효기간. 8Byte long Milliseconds.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nonce 문자열. 생성 시각, TTL, 사용할 API 등의 정보로 만든 해시값.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="api-accounts-create">계정 등록</h3>
+<div class="sect3">
+<h4 id="_request_fields">Request Fields</h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deviceKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계정을 인증할 때 사용할 기기 정보.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계정 이름. 중복 불가, 이후 변경 가능.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bio</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자기소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nonceCreate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8Byte long. 발급받은 nonce의 create 필드.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nonceTtl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8Byte long. 발급받은 nonce의 ttl 필드.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nonceToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">발급받은 nonce의 token 필드.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_2">Response Fields</h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>meta</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">디버깅 정보를 담든 공통 필드.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>method</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP Method</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nextApi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Path(URI)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>properties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nextApi에 요청을 보낼 때 사용할 값.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_headers">Response Headers</h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>X-AUTH-TOKEN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT 인증 토큰. 인증이 필요한 리퀘스트는 헤더에 이 값을 추가해야 한다. 인증 이후의 모든 리스폰스에 추가되며, 리퀘스트를 보낼 때는 항상 이전 리스폰스에서 발급받은 JWT 토큰을 추가해서 사용해야 한다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_request">HTTP Request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /accounts HTTP/1.1
+Accept: application/json
+Content-Type: application/json; charset=UTF-8
+Host: localhost:8080
+Content-Length: 1093
+
+{"nonceCreate":1473398222655,"nonceTtl":300000,"nonceToken":"a2264a2bba76470966f7ca85f79775ff68371c95","deviceKey":133141804806380367,"name":"name 6KUukmyU","bio":"bio 70CPGnRstesvbvid9QJBkFoP8WXLIl20EZYj8dJksDLNpY8ZU6Ex4e0OdC0nuBynfIquCbJwUgLgOeYah7xzSFiQkA2LZUyUAfTZFsutHWYLq9SJLWOjQ0j0RhrxqcB9CzOvfgtyHKUB2CwTjxPSwI0AIuiC9LPPQ9L2vtG7EsTRl398adny5xQ4U3g2UEuvBExQoYpnqEZG39UR53jEBmDqE4gsHPBxV72BI4XsTb4qi9tIUWUBm0VikTCYKAtyH5S8ewq49IwnjfgPQdpHTMpVSHBE92L8cIeUURy0rLHiOHSudZVkDPxVA2hDmKRzLYIBk6XDQxCkSoHxJMxDpbo9HmWmzwKg6QLZIRTwM3mWwa0che9dLpxTc6qJG7YTjTtfgYFv6o93SzxGy7aZAt4YowWxKMTjDxjnGob802NgH17QessQJVe02f8qoy6XqJ2uXKjJGX9LE6P4Zz46daHysZyS2NqzHQSeFAjjtyjHIZby9xFuO4Wgz7BQV6R3eeLanxZZDAhikld1ubB3QJUQ6R1NWhhZHZgZLqzGbWGpFfdhGlWqe0qgCUF3VULbR5elbgO3pzG6Sfu1Pk6vTEoL2OsHtng0JF8s31gBrv0ALcIiMMuep8LT1PferICSpSav1n4PU43XJm3qCvi7VCvhigtzitxMyADhZDlVO0bFz3VJwJy73l7XvuU2RpQycOmyeiYM5ijWRKUv1fjIrq2qNCUcZnzhe24pqQKcShkYrsQlD4xhI3oZBjrr0TowWSVAmyo6V9arjUQIlj8sgQFbNB24kCfDnwS9kAIqVALUufCSmK2iRM8bGFsNF3bkiN9tb2LB64hqvTo7s8iqmDV2JlKTMspttnIgbmm3mVkU89ynCDRkalgfm1YEJbgouuavJs7qjDk9PO6V7HXSEQsrZRu"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response">HTTP Response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+X-AUTH-TOKEN: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiaWF0IjoxNDczMzk4MjIyfQ.5KjFR-HLpdQeaUQSqpL66csHAkxBWbuZZdvFMrf167E
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Fri, 09 Sep 2016 05:17:02 GMT
+Content-Length: 67
+
+{"meta":{},"method":"GET","nextApi":"/accounts/my","properties":{}}</code></pre>
 </div>
 </div>
 </div>
@@ -596,7 +857,7 @@ Content-Length: 114
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-09-04 20:50:17 +09:00
+Last updated 2016-09-06 12:34:34 +09:00
 </div>
 </div>
 </body>

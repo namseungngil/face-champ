@@ -4,7 +4,7 @@
 
 1. [인증](./flow/auth.md)
 
-## API
+## [API](./api/index.html)
 
-1. [기기 정보](./api/device.md)
-2. [계정](./api/account.md)
+1. [기기 정보](./api/index.md#api-devices)
+2. [계정](./api/index.md#api-accounts)

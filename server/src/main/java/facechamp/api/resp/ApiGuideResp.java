@@ -1,6 +1,6 @@
 package facechamp.api.resp;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,9 +22,11 @@ public class ApiGuideResp extends AbstractResp {
   private Map<String, Object> properties;
 
   public ApiGuideResp() {
+    this.properties = new LinkedHashMap<>();
   }
 
   public ApiGuideResp(RequestMethod method, String nextApi) {
+    this();
     this.method = method;
     this.nextApi = nextApi;
   }
@@ -38,9 +40,6 @@ public class ApiGuideResp extends AbstractResp {
    * @since 2016. 8. 28.
    */
   public void addProperty(String key, Object value) {
-    if (null == this.properties) {
-      this.properties = new HashMap<>();
-    }
     if (this.properties.containsKey(key)) {
       throw new IllegalStateException(
           String.format("already exists : key=%s, value=%s", key, this.properties.get(key)));

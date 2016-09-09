@@ -414,7 +414,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect2">
-<h3 id="device-create-nonce">기기 정보 등록</h3>
+<h3 id="api-devices-create">기기 정보 등록</h3>
+<div class="paragraph">
+<p><code>nonce`를 사용한다. `nonce</code> 발급은 <a href="#api-devices-create-nonce">nonce 발급</a>을 참조.</p>
+</div>
 <div class="sect3">
 <h4 id="_response_structure">Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
@@ -458,7 +461,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_example_curl_request">Example curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/devices' -i -X POST -H 'Accept: application/json' -H 'Content-Type: application/json; charset=UTF-8' -d '{"nonceCreate":1472989827190,"nonceTtl":300000,"nonceToken":"7422525da5debb5a6c3cdf76d7b556270713f743","type":2,"identifier":"af7d6c97-a669-4109-b0be-809415abddc0"}'</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/devices' -i -X POST -H 'Accept: application/json' -H 'Content-Type: application/json; charset=UTF-8' -d '{"nonceCreate":1473398223126,"nonceTtl":300000,"nonceToken":"14fe322067ba0d3c7ac3061e6ea317c63aa9ad1d","type":2,"identifier":"35231bc2-fc52-4d26-b9e2-29542b4088de"}'</code></pre>
 </div>
 </div>
 </div>
@@ -472,7 +475,7 @@ Content-Type: application/json; charset=UTF-8
 Host: localhost:8080
 Content-Length: 164
 
-{"nonceCreate":1472989827190,"nonceTtl":300000,"nonceToken":"7422525da5debb5a6c3cdf76d7b556270713f743","type":2,"identifier":"af7d6c97-a669-4109-b0be-809415abddc0"}</code></pre>
+{"nonceCreate":1473398223126,"nonceTtl":300000,"nonceToken":"14fe322067ba0d3c7ac3061e6ea317c63aa9ad1d","type":2,"identifier":"35231bc2-fc52-4d26-b9e2-29542b4088de"}</code></pre>
 </div>
 </div>
 </div>
@@ -489,10 +492,10 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
 Transfer-Encoding: chunked
-Date: Sun, 04 Sep 2016 11:50:26 GMT
+Date: Fri, 09 Sep 2016 05:17:02 GMT
 Content-Length: 114
 
-{"meta":{},"method":"GET","nextApi":"/accounts/create/{deviceKey}","properties":{"deviceKey":8343994905991567136}}</code></pre>
+{"meta":{},"method":"GET","nextApi":"/accounts/create/{deviceKey}","properties":{"deviceKey":2118970028701645848}}</code></pre>
 </div>
 </div>
 </div>
@@ -500,7 +503,7 @@ Content-Length: 114
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-09-04 20:40:17 +09:00
+Last updated 2016-09-09 14:16:54 +09:00
 </div>
 </div>
 </body>

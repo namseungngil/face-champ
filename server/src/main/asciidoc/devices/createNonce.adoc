@@ -1,4 +1,4 @@
-[[device-create-nonce]]
+[[api-devices-create-nonce]]
 === 기기 정보 등록용 nonce 발급
 
 ==== Response structure

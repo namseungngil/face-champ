@@ -1,5 +1,7 @@
-[[device-create-nonce]]
+[[api-devices-create]]
 === 기기 정보 등록
+
+`nonce`를 사용한다. `nonce` 발급은 <<api-devices-create-nonce,nonce 발급>>을 참조.
 
 ==== Response structure
  

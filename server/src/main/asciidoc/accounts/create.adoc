@@ -1,0 +1,22 @@
+[[api-accounts-create]]
+=== 계정 등록
+
+==== Request Fields
+
+include::{snippets}/accounts/create/request-fields.adoc[]
+
+==== Response Fields
+
+include::{snippets}/accounts/create/response-fields.adoc[]
+
+==== Response Headers
+
+include::{snippets}/accounts/create/response-headers.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/accounts/create/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/accounts/create/http-response.adoc[]

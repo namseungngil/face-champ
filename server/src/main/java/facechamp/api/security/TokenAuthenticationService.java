@@ -16,11 +16,15 @@ import org.springframework.stereotype.Component;
  * @author Just Burrow just.burrow@lul.kr
  */
 @Component
-class TokenAuthenticationService {
-  private static final String AUTH_HEADER_NAME = "X-AUTH-TOKEN";
+public class TokenAuthenticationService {
+  /**
+   * @author Just Burrow
+   * @since 2016. 9. 7.
+   */
+  public static final String AUTH_HEADER_NAME = "X-AUTH-TOKEN";
 
   @Autowired
-  private TokenHandler        tokenHandler;
+  private TokenHandler       tokenHandler;
 
   /**
    * TODO
