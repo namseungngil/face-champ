@@ -9,7 +9,7 @@ public class BattleController : FaceSceneController
     [SerializeField]
     private Sprite[] sprites;
     [SerializeField]
-    private Button[] buttons;
+    private Image[] buttons;
     [SerializeField]
     private Text text;
     private List<BattleData> listBattle;
@@ -40,7 +40,17 @@ public class BattleController : FaceSceneController
     private void SetView ()
     {
         for (int i = 0; i < buttons.Length; i++) {
-            buttons [i].image.sprite = listBattle [index + i].sprite;
+            Sprite sprite = listBattle [index + i].sprite;
+            Image image = buttons [i].gameObject.FindChildObject<Image> ("Image");
+            image.sprite = sprite;
+
+            RectTransform rect = image.GetComponent<RectTransform> ();
+            Vector2 vector2 = sprite.rect.size;
+            if (vector2.x > vector2.y) {
+                rect.localScale = Vector3.one;
+            } else {
+                rect.localScale = new Vector3 (0.6f, 1f, 1f);
+            }
         }
 
         text.text = "" + (index + 1) + " / " + listBattle.Count;
