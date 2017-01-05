@@ -1,73 +1,58 @@
-/**
- *
- */
 package facechamp.service;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import facechamp.command.GetAccountCmd;
-import facechamp.domain.HardwareIdentifier;
-import facechamp.domain.entity.AccountEntity;
-import facechamp.domain.entity.EmbeddedHardwareIdentifier;
+import facechamp.api.exception.DeviceException;
+import facechamp.cmd.CreateAccountCmd;
+import facechamp.domain.Account;
+import facechamp.domain.Device;
 import facechamp.dto.AccountDto;
-import facechamp.reposigory.AccountRepository;
+import facechamp.service.ctx.CreateAccountCtx;
+import facechamp.service.internal.AccountInternalService;
+import facechamp.service.internal.DeviceInternalService;
 import facechamp.util.Return;
 
-/**
- * @since 2016. 7. 30.
- * @author Just Burrow just.burrow@lul.kr
- */
 @Service
-class AccountServiceImpl implements AccountService {
-  private static final Logger log = LoggerFactory.getLogger(AccountService.class);
-
+class AccountServiceImpl extends AbstractService implements AccountService {
   @Autowired
-  private AccountRepository   accountRepository;
+  private DeviceInternalService  deviceInternalService;
+  @Autowired
+  private AccountInternalService accountInternalService;
 
-  /**
-   * @param account
-   * @return
-   * @since 2016. 7. 30.
-   */
-  private Return<AccountDto> convert(final AccountEntity account) {
-    return () -> {
-      AccountDto dto = new AccountDto();
-      dto.setId(account.getId());
-      dto.setUsername(account.getUsername());
-      dto.setUpdate(account.getUpdate());
-      dto.setCreate(account.getCreate());
-      return dto;
-    };
+  @PostConstruct
+  private void postConstruct() {
+    this.initMapper();
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <I>AccountService
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  @Override
+  public Return<AccountDto> create(CreateAccountCmd cmd) throws DeviceException {
+    Device device = this.deviceInternalService.read(cmd.getDeviceKey());
+    if (null == device) {
+      throw new DeviceException("not exist : deviceKey=" + cmd.getDeviceKey());
+    }
+
+    CreateAccountCtx ctx = new CreateAccountCtx(device, cmd.getName(), cmd.getBio());
+    Account account = this.accountInternalService.create(ctx);
+
+    return () -> this.mapper.map(account, AccountDto.class);
+  }
+
   /*
    * (non-Javadoc)
-   * @since 2016. 7. 30.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   @Override
-  public Return<AccountDto> get(GetAccountCmd cmd) {
-    if (log.isTraceEnabled()) {
-      log.trace(cmd.toString());
-    }
-
-    HardwareIdentifier device = new EmbeddedHardwareIdentifier(cmd.getType(), cmd.getIdentifier());
-    AccountEntity account = this.accountRepository.findOneByDevice(device);
-
-    if (null == account) {
-      account = new AccountEntity(cmd.getType(), cmd.getIdentifier(), RandomStringUtils.randomAlphanumeric(10));
-      if (log.isTraceEnabled()) {
-        log.trace(account.toString());
-      }
-      account = this.accountRepository.save(account);
-    }
-
-    return this.convert(account);
+  public Return<AccountDto> read(int id) {
+    Account account = this.accountInternalService.read(id);
+    return () -> null == account
+        ? null
+        : this.mapper.map(account, AccountDto.class);
   }
 }

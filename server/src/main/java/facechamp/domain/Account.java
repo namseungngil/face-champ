@@ -1,26 +1,25 @@
-/**
- *
- */
 package facechamp.domain;
 
-import java.time.Instant;
+import java.net.URL;
 
-/**
- * 클라이언트 타입과 HW의 ID를 인식 키로 한다.
- *
- * @since 2016. 7. 25.
- * @author Just Burrow just.burrow@lul.kr
- */
-public interface Account {
+public interface Account extends Updatable {
+  /**
+   * @author Just Burrow
+   * @since 2016. 9. 6.
+   */
+  public String NAME_PATTERN = "\\S.{0,43}\\S";
+
   public int getId();
 
-  public HardwareIdentifier getDevice();
+  public String getName();
 
-  public String getUsername();
+  public void setName(String name);
 
-  public void setUsername(String username);
+  public String getBio();
 
-  public Instant getCreate();
+  public void setBio(String bio);
 
-  public Instant getUpdate();
+  public URL getPortrait();
+
+  public void setPortrait(URL portraitUrl);
 }

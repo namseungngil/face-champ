@@ -1,124 +1,115 @@
-/**
- *
- */
 package facechamp.domain.entity;
 
-import java.time.Instant;
+import java.net.URL;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import facechamp.domain.Account;
-import facechamp.domain.ClientType;
-import facechamp.domain.HardwareIdentifier;
 
-/**
- * @since 2016. 7. 25.
- * @author Just Burrow just.burrow@lul.kr
- */
 @Entity(name = "Account")
-@EntityListeners({ AuditingEntityListener.class })
 @Table(name = "user_account",
-    uniqueConstraints = { @UniqueConstraint(name = "UQ_ACCOUNT_DEVICE", columnNames = { "client_type", "hw_id" }),
-        @UniqueConstraint(name = "UQ_ACCOUNT_USERNAME", columnNames = { "username" }) })
-public class AccountEntity implements Account {
+    uniqueConstraints = { @UniqueConstraint(name = "UQ_ACCOUNT_USER_NAME", columnNames = { "user_name" }) })
+public class AccountEntity extends AbstractUpdatableEntity implements Account {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", nullable = false, insertable = false, updatable = false)
-  private int                        id;
-
-  @Embedded
-  @AttributeOverrides({
-      @AttributeOverride(name = "type", column = @Column(name = "client_type", nullable = false, updatable = false)),
-      @AttributeOverride(name = "identifier", column = @Column(name = "hw_id", nullable = false, updatable = false)) })
-  private EmbeddedHardwareIdentifier device;
-  @Column(name = "username", unique = true, nullable = false, updatable = false)
-  private String                     username;
-  @Column(name = "create_utc", nullable = true, updatable = false)
-  private Instant                    create;
-  @Column(name = "update_utc", nullable = true)
-  private Instant                    update;
+  @Column(name = "pk", nullable = false, insertable = false, updatable = false)
+  private int    id;
+  @Column(name = "user_name", unique = true, nullable = false)
+  private String name;
+  @Column(name = "user_bio")
+  private String bio;
+  @Column(name = "portrait")
+  private URL    portrait;
 
   /**
-   * JPA용.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   public AccountEntity() {
   }
 
   /**
-   * 로직용.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   * @param name
    */
-  public AccountEntity(ClientType type, String hwId, String username) {
-    this.device = new EmbeddedHardwareIdentifier(type, hwId);
-    this.username = username;
+  public AccountEntity(String name) {
+    this.setName(name);
+  }
+
+  /**
+   * @author Just Burrow
+   * @since 2016. 8. 28.
+   * @param name
+   * @param bio
+   */
+  public AccountEntity(String name, String bio) {
+    this.setName(name);
+    this.setBio(bio);
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <I>Account
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /*
-   * (non-Javadoc)
-   * @since 2016. 7. 25.
-   */
   @Override
   public int getId() {
     return this.id;
   }
 
-  /*
-   * (non-Javadoc)
-   * @since 2016. 7. 30.
-   */
   @Override
-  public HardwareIdentifier getDevice() {
-    return this.device;
+  public String getName() {
+    return this.name;
+  }
+
+  @Override
+  public void setName(String name) {
+    if (null == name) {
+      throw new NullPointerException("name");
+    } else if (!name.matches(NAME_PATTERN)) {
+      throw new IllegalArgumentException("illegal name : " + name);
+    }
+    this.name = name;
+  }
+
+  @Override
+  public String getBio() {
+    return this.bio;
   }
 
   /*
    * (non-Javadoc)
-   * @since 2016. 7. 30.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   @Override
-  public String getUsername() {
-    return this.username;
+  public void setBio(String bio) {
+    this.bio = bio;
   }
 
   /*
    * (non-Javadoc)
-   * @since 2016. 7. 30.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   @Override
-  public void setUsername(String username) {
-    this.username = username;
+  public URL getPortrait() {
+    return this.portrait;
   }
 
   /*
    * (non-Javadoc)
-   * @since 2016. 7. 30.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   @Override
-  public Instant getCreate() {
-    return this.create;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @since 2016. 7. 30.
-   */
-  @Override
-  public Instant getUpdate() {
-    return this.update;
+  public void setPortrait(URL portraitUrl) {
+    this.portrait = portraitUrl;
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +117,8 @@ public class AccountEntity implements Account {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /*
    * (non-Javadoc)
-   * @since 2016. 7. 25.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   @Override
   public int hashCode() {
@@ -135,12 +127,12 @@ public class AccountEntity implements Account {
 
   /*
    * (non-Javadoc)
-   * @since 2016. 7. 25.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   @Override
   public boolean equals(Object obj) {
-    if (0 < this.id && null != this.device && null != this.username && !this.username.isEmpty()
-        && obj instanceof AccountEntity) {
+    if (0 < this.id && null != obj && obj instanceof AccountEntity) {
       return this.id == ((AccountEntity) obj).id;
     } else {
       return false;
@@ -149,16 +141,16 @@ public class AccountEntity implements Account {
 
   /*
    * (non-Javadoc)
-   * @since 2016. 7. 30.
+   * @author Just Burrow
+   * @since 2016. 8. 28.
    */
   @Override
   public String toString() {
     return new StringBuilder(AccountEntity.class.getSimpleName())
-        .append("[id=").append(this.id)
-        .append(", device=").append(this.device)
-        .append(", username=").append(this.username)
-        .append(", create=").append(this.create)
-        .append(", update=").append(this.update)
-        .append(']').toString();
+        .append(" [id=").append(this.id)
+        .append(", name=").append(this.name)
+        .append(", bio=").append(this.bio)
+        .append(", portrait=").append(this.portrait)
+        .append("]").toString();
   }
 }

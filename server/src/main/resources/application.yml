@@ -1,19 +1,23 @@
+facechamp:
+  api:
+    nonce:
+      ttl: 300000
+      secret: facechameNonceHashSecret
+  jwt:
+    secret: facechampJwtSecret
+    ttl: 600000
 spring:
   datasource:
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost/facechamp
     username: database_instance_username # Overwrite by `[PROJECT]/config/application.yml`. See `[PROJECT]/config/sample-application.yml`.
     password: database_instance_password # Overwrite by `[PROJECT]/config/application.yml`. See `[PROJECT]/config/sample-application.yml`.
-    driver-class-name: 'com.mysql.jdbc.Driver'
     sql-script-encoding: UTF-8
-    connection-test-query: 'SELECT 1'
-    validation-query: 'SELECT 1'
+    tomcat:
+      validation-query: 'SELECT 1'
+      test-while-idle: true
+      test-on-borrow: true
   jpa:
-    show-sql: false
+    show-sql: false # 설정 클래스에서 false 설정함.
     generate-ddl: false
-    properties:
-      javax.persistence.sharedCache.mode: ALL
-      hibernate.cache:
-        use_second_level_cache: true
-        use_query_cache: false
-        generateStatistics: false
-        region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory

@@ -1,0 +1,19 @@
+[[api-accounts-create-nonce]]
+=== 계정 등록용 nonce 발급
+
+==== Request
+
+include::{snippets}/accounts/createNonce/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/accounts/createNonce/http-response.adoc[]
+
+==== Path Parameters
+
+include::{snippets}/accounts/createNonce/path-parameters.adoc[]
+
+==== Response Fields
+
+include::{snippets}/accounts/createNonce/response-fields.adoc[]
+
